@@ -1,0 +1,13 @@
+ {% extends 'admin/admin.html.twig' %}
+
+{% block title 'Modifier categorie' %}
+
+
+{% block body %}
+    <div class="m-5">
+        <h1>Modifier categorie</h1>
+        <img src="{{ vich_uploader_asset(recipe, 'thumbnailFile') }}" alt="" width="100px">
+        {{ form(form) }}
+    </div>
+    
+{% endblock %}

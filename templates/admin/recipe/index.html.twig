@@ -1,0 +1,56 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block title "Toutes les recettes" %}
+
+{% block body %}
+
+    les base base block extends recettes Toutes title html
+    les base base block extends recettes Toutes title html
+    les base base block extends recettes Toutes title html
+    les base base block extends recettes Toutes title html
+
+    <ul>
+          <div class="button-add mt-3 mb-3 ">
+            <a class="btn btn-primary fw-bold" href="{{ path('admin.recipe.create') }}">+ Ajouter</a>
+          </div>
+
+          <table class="table" >
+            <thead class="table-primary">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Titre</th>
+                <th scope="col">Categorie</th>
+                <th scope="col" class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <td>{{ recipe.id }}</td>
+                    <td><img src="{{ vich_uploader_asset(recipe, 'thumbnailFile') }}" alt="" width="100px"></td>
+                    <td>{{recipe.title}}</td>
+                    <td>{{recipe.categorie.name |default('') }} </td>
+                    <td>
+                        <div class="d-flex float-end gap-3">
+                            <a class="btn btn-outline-primary btn-sm" 
+                                href="{{ path('admin.recipe.edit', {id : recipe.id}) }}">Modifier
+                            </a>
+                            <!--<a class="btn btn-outline-primary btn-sm" 
+                                href="{{ path('admin.recipe.delete', {id : recipe.id}) }}">Supprimer
+                            </a>-->
+                            <form action="{{ path('admin.recipe.delete', {id : recipe.id}) }}" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Supprier</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+
+
+    </ul>
+
+{% endblock %}
