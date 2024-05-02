@@ -19,6 +19,7 @@ class RecipeController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(RecipeRepository $recipeRepository, CategorieRepository $categorieRepository, EntityManagerInterface $em): Response
     {  
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $recipes = $recipeRepository->findAll();
         return $this->render("admin/recipe/index.html.twig", [
             'recipes' => $recipes
