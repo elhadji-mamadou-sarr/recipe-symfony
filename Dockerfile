@@ -7,8 +7,6 @@ WORKDIR /var/www/html/
 # Copier les fichiers de l'application
 COPY . .
 
-# Configuration du serveur Apache
-COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
 
 # Installer les dépendances avec Composer
 RUN apt-get update \
