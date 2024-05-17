@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 class RecipeController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(RecipeRepository $recipeRepository, CategorieRepository $categorieRepository, EntityManagerInterface $em): Response
+    public function index(RecipeRepository $recipeRepository): Response
     {  
         $this->denyAccessUnlessGranted('ROLE_USER');
         $recipes = $recipeRepository->findAll();
@@ -67,10 +67,13 @@ class RecipeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var  \Symfony\Component\HttpFoundation\File\UploadedFile $file**/
-            /*$file = $form->get('thumbnailFile')->getData();
-            $fileName = $recipe->getId(). '.'. $file->getClientOriginalExtension();
-            $file->move($this->getParameter('kernel.project_dir').'/public/recttes/images', $fileName);
-            $recipe->setThumbnail($fileName);*/
+            /*
+                $file = $form->get('thumbnailFile')->getData();
+                $fileName = $recipe->getId(). '.'. $file->getClientOriginalExtension();
+                $file->move($this->getParameter('kernel.project_dir').'/public/recttes/images', $fileName);
+                $recipe->setThumbnail($fileName);
+            */
+
             $em->flush();
             $this->addFlash('success', 'La recette à bien été modifier !');
             return $this->redirectToRoute('admin.recipe.index');
