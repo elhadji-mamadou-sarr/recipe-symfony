@@ -10,7 +10,7 @@ COPY . .
 # Installer les dépendances avec Composer
 RUN apt-get update \
     && apt-get install -y git \
-    && apt-get
+    && apt-get clean
 
 # Installation des dépendances PHP via Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
