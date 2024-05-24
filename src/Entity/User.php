@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -43,6 +45,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLogin = null;
+
+    /**
+     * @var Collection<int, Role>
+     */
+    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
+    private Collection $userRoles;
+
+    public function __construct()
+    {
+        $this->userRoles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -151,6 +164,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLogin(?\DateTimeInterface $lastLogin): static
     {
         $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->userRoles;
+    }
+
+    public function addUserRole(Role $userRole): static
+    {
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles->add($userRole);
+            $userRole->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserRole(Role $userRole): static
+    {
+        if ($this->userRoles->removeElement($userRole)) {
+            $userRole->removeUser($this);
+        }
 
         return $this;
     }
